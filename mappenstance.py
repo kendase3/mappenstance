@@ -5,12 +5,12 @@ import random
 
 MAP_WIDTH = 80 
 MAP_HEIGHT = 24 
-MIN_ROOMS = 4
-MAX_ROOMS = 10 
-MIN_ROOM_WIDTH = 2   
-MIN_ROOM_HEIGHT = 2 
-MAX_ROOM_WIDTH = 8 
-MAX_ROOM_HEIGHT = 2 
+MIN_ROOMS = 3 
+MAX_ROOMS = 8 
+MIN_ROOM_WIDTH = 4   
+MIN_ROOM_HEIGHT = 3 
+MAX_ROOM_WIDTH = 40 
+MAX_ROOM_HEIGHT = 40 
 MAX_TRIES = 30
 
 WALL_SYMBOL = '+' 
@@ -80,15 +80,12 @@ def addRoom(map):
 		endX = random.randint(startX + 3, min(MAP_WIDTH - 1, startX + MAX_ROOM_WIDTH + 1)) 
 		endY = random.randint(startY + 3, min(MAP_HEIGHT - 1, startY + MAX_ROOM_HEIGHT + 1)) 
 		# we ensure it does not collide with existing rooms
+		# by checking entire proposed innards
 		passes = True
-		# we check each perimeter cell along the two vertical sides
 		for i in range(startY, endY + 1):
-			if map[i][startX].ascii != EMPTY_SYMBOL or map[i][endX].ascii != EMPTY_SYMBOL:
-				passes = False
-		# we check each perimeter cell along the two horizontal sides 
-		for i in range(startX, endX + 1):
-			if map[startY][i].ascii != EMPTY_SYMBOL or map[endY][i].ascii != EMPTY_SYMBOL:
-				passes = False
+			for j in range(startX, endX + 1):
+				if map[i][j].ascii != EMPTY_SYMBOL:
+					passes = False
 		# if the perimeter is all wall, then we can dig out a room
 		if passes:
 			break
