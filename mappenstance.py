@@ -5,6 +5,8 @@ import random
 
 MAP_WIDTH = 80 
 MAP_HEIGHT = 24 
+MIN_ROOMS = 4
+MAX_ROOMS = 10 
 MIN_ROOM_WIDTH = 2   
 MIN_ROOM_HEIGHT = 2 
 MAX_ROOM_WIDTH = 8 
@@ -15,24 +17,49 @@ WALL_SYMBOL = '+'
 EMPTY_SYMBOL = '~' 
 FLOOR_SYMBOL = '_'
 
-class Cell:
-	def __init__(self):
-		self.ascii = EMPTY_SYMBOL
-
-
-def initMap(width, height): 
-	"""
-		returned list is in [y,x] format
-	"""
-	cells = [[Cell() for j in range(width)] 
-			for i in range(height)]
-	return cells
-
 def min(a, b):
 	if a < b:
 		return a
 	else:
 		return b	
+
+class Cell:
+	def __init__(self):
+		self.ascii = EMPTY_SYMBOL
+
+class CellMap:
+	"""
+		returned list is in [y,x] format
+	"""
+	def __init__(self, width, height):
+		self.cells = [[Cell() for j in range(width)] 
+				for i in range(height)]
+		self.roomCount = 0
+
+	def reset(self):
+		self.roomCount = 0
+		for row in self.cells:
+			for cell in row:
+				cell.ascii = EMPTY_SYMBOL
+
+	def prnt(self):
+		for row in self.cells:
+			for cell in row:
+				sys.stdout.write(cell.ascii) 
+			print
+
+	def addRooms(self):
+		ctr = 0
+		while True:
+			for i in range(0, MAX_ROOMS):
+				ctr = i
+				if not addRoom(self.cells):
+					break 
+			if ctr >= MIN_ROOMS:
+				self.roomCount = ctr
+				break
+			else:
+				self.reset()
 
 def addRoom(map):
 	"""
@@ -86,14 +113,7 @@ def addRoom(map):
 			map[i][j].ascii = FLOOR_SYMBOL 
 	return True
 
-def printMap(map):
-	for row in map:
-		for cell in row:
-			sys.stdout.write(cell.ascii) 
-		print
-
-map = initMap(MAP_WIDTH, MAP_HEIGHT) 
-printMap(map)
-while addRoom(map):
-	pass	
-printMap(map)
+map = CellMap(MAP_WIDTH, MAP_HEIGHT) 
+map.prnt() 
+map.addRooms() 
+map.prnt()
