@@ -11,9 +11,12 @@ MAX_ROOM_WIDTH = 8
 MAX_ROOM_HEIGHT = 2 
 MAX_TRIES = 30
 
+WALL_SYMBOL = '+' 
+EMPTY_SYMBOL = '~' 
+
 class Cell:
 	def __init__(self):
-		self.ascii = '~'
+		self.ascii = EMPTY_SYMBOL
 
 
 def initMap(width, height): 
@@ -48,11 +51,11 @@ def addRoom(map):
 		passes = True
 		# we check each perimeter cell along the two vertical sides
 		for i in range(startY, endY + 1):
-			if map[i][startX].ascii != '~' or map[i][endX].ascii != '~':
+			if map[i][startX].ascii != EMPTY_SYMBOL or map[i][endX].ascii != EMPTY_SYMBOL:
 				passes = False
 		# we check each perimeter cell along the two horizontal sides 
 		for i in range(startX, endX + 1):
-			if map[startY][i].ascii != '~' or map[endY][i].ascii != '~':
+			if map[startY][i].ascii != EMPTY_SYMBOL or map[endY][i].ascii != EMPTY_SYMBOL:
 				passes = False
 		# if the perimeter is all wall, then we can dig out a room
 		if passes:
@@ -66,12 +69,12 @@ def addRoom(map):
 			startX, startY, endX, endY)
 	# first we draw the walls horizontally
 	for j in range(startX, endX + 1):
-		map[startY][j].ascii = '+'
-		map[endY][j].ascii = '+'
+		map[startY][j].ascii = WALL_SYMBOL
+		map[endY][j].ascii = WALL_SYMBOL
 	# then we draw the walls vertically
 	for i in range(startY, endY + 1):
-		map[i][startX].ascii = '+'
-		map[i][endX].ascii = '+' 
+		map[i][startX].ascii = WALL_SYMBOL
+		map[i][endX].ascii = WALL_SYMBOL 
 	# then we draw the innards
 	for i in range(startY + 1, endY):
 		for j in range(startX + 1, endX):
