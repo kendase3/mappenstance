@@ -13,6 +13,7 @@ MAX_TRIES = 30
 
 WALL_SYMBOL = '+' 
 EMPTY_SYMBOL = '~' 
+FLOOR_SYMBOL = '_'
 
 class Cell:
 	def __init__(self):
@@ -35,8 +36,12 @@ def min(a, b):
 
 def addRoom(map):
 	"""
-		TODO: make sure there's no room there currently
+		returns True if it could add a room with ease,
+				False if it got all tuckered out
 	"""
+	#TODO: could add wrapper function to ensure min/max # of rooms and just restart
+	#		level creation if it's a wash 
+
 	# 2 for walls
 	maxStartX = MAP_WIDTH - 2 - MIN_ROOM_WIDTH
 	maxStartY = MAP_HEIGHT - 2 - MIN_ROOM_HEIGHT
@@ -78,7 +83,7 @@ def addRoom(map):
 	# then we draw the innards
 	for i in range(startY + 1, endY):
 		for j in range(startX + 1, endX):
-			map[i][j].ascii = '_' 
+			map[i][j].ascii = FLOOR_SYMBOL 
 	return True
 
 def printMap(map):
