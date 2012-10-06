@@ -18,6 +18,7 @@ class Mapp:
 	"""
 		returned list is in [y,x] format
 	"""
+	#FIXME: settings not taking effect
 	DEFAULT_MAP_WIDTH = 80 
 	DEFAULT_MAP_HEIGHT = 24 
 	DEFAULT_MIN_ROOMS = 3 
@@ -120,6 +121,7 @@ class Mapp:
 			# by checking entire proposed innards
 			passes = True
 			# adjust values to leave spaces between rooms
+			"""
 			adjStartX = startX - 1
 			adjStartY = startY - 1
 			adjEndX = endX + 1
@@ -132,8 +134,9 @@ class Mapp:
 				adjEndX = self.width - 1
 			if adjEndY >= self.height: 
 				adjEndY = self.height - 1
-			for i in range(adjStartY, adjEndY + 1):
-				for j in range(adjStartX, adjEndX + 1):
+			"""
+			for i in range(startY, endY + 1):
+				for j in range(startX, endX + 1):
 					if map[i][j].ascii != Mapp.EMPTY_SYMBOL:
 						passes = False
 			# if the perimeter is all wall, then we can dig out a room
