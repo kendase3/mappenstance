@@ -30,7 +30,7 @@ class Mapp:
 	DEFAULT_MAX_TRIES = 30
 	VERTICAL_WALL_SYMBOL = '|' 
 	HORIZONTAL_WALL_SYMBOL = '_' 
-	TOP_CORNER_SYMBOL = '-' 
+	TOP_CORNER_SYMBOL = ' ' 
 	BOTTOM_CORNER_SYMBOL = '|' 
 	EMPTY_SYMBOL = '~' 
 	FLOOR_SYMBOL = '.'
@@ -83,7 +83,7 @@ class Mapp:
 		self.roomCount = 0
 		for row in self.cells:
 			for cell in row:
-				cell.ascii = EMPTY_SYMBOL
+				cell.ascii = Mapp.EMPTY_SYMBOL
 
 	def prnt(self):
 		for row in self.cells:
@@ -172,6 +172,8 @@ class Mapp:
 		return True
 
 map = Mapp() 
-map.prnt() 
-map.addRooms() 
+for i in range(0, 10):
+	map.reset()
+	map.prnt() 
+	map.addRooms() 
 map.prnt()
