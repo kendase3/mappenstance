@@ -23,15 +23,12 @@ class Mapp:
 	DEFAULT_MAP_HEIGHT = 24 
 	DEFAULT_MIN_ROOMS = 3 
 	DEFAULT_MAX_ROOMS = 8 
-	DEFAULT_MIN_ROOM_WIDTH = 4   
+	DEFAULT_MIN_ROOM_WIDTH = 8   
 	DEFAULT_MIN_ROOM_HEIGHT = 3 
 	DEFAULT_MAX_ROOM_WIDTH = 40 
 	DEFAULT_MAX_ROOM_HEIGHT = 40 
 	DEFAULT_MAX_TRIES = 30
-	VERTICAL_WALL_SYMBOL = '|' 
-	HORIZONTAL_WALL_SYMBOL = '_' 
-	TOP_CORNER_SYMBOL = ' ' 
-	BOTTOM_CORNER_SYMBOL = '|' 
+	WALL_SYMBOL = 'O' 
 	EMPTY_SYMBOL = '~' 
 	FLOOR_SYMBOL = '.'
 
@@ -154,17 +151,19 @@ class Mapp:
 				startX, startY, endX, endY)
 		# first we draw the walls horizontally
 		for j in range(startX, endX + 1):
-			map[startY][j].ascii = Mapp.HORIZONTAL_WALL_SYMBOL
-			map[endY][j].ascii = Mapp.HORIZONTAL_WALL_SYMBOL
+			map[startY][j].ascii = Mapp.WALL_SYMBOL
+			map[endY][j].ascii = Mapp.WALL_SYMBOL
 		# then we draw the walls vertically
 		for i in range(startY, endY + 1):
-			map[i][startX].ascii = Mapp.VERTICAL_WALL_SYMBOL
-			map[i][endX].ascii = Mapp.VERTICAL_WALL_SYMBOL 
+			map[i][startX].ascii = Mapp.WALL_SYMBOL
+			map[i][endX].ascii = Mapp.WALL_SYMBOL 
 		# then we draw the corners
+		"""
 		map[startY][startX].ascii = Mapp.TOP_CORNER_SYMBOL
 		map[startY][endX].ascii = Mapp.TOP_CORNER_SYMBOL
 		map[endY][startX].ascii = Mapp.BOTTOM_CORNER_SYMBOL
 		map[endY][endX].ascii = Mapp.BOTTOM_CORNER_SYMBOL
+		"""
 		# then we draw the innards
 		for i in range(startY + 1, endY):
 			for j in range(startX + 1, endX):
@@ -172,8 +171,6 @@ class Mapp:
 		return True
 
 map = Mapp() 
-for i in range(0, 10):
-	map.reset()
-	map.prnt() 
-	map.addRooms() 
+map.prnt() 
+map.addRooms() 
 map.prnt()
