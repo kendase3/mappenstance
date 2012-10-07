@@ -159,8 +159,8 @@ class Mapp:
 				#print "numTries = %d" % numTries
 			if numTries == self.maxTries:
 				return False
-		print "decided to make a room between x=%d,y=%d and x=%d,y=%d" % (
-				startX, startY, endX, endY)
+		#print "decided to make a room between x=%d,y=%d and x=%d,y=%d" % (
+		#		startX, startY, endX, endY)
 		# first we draw the walls horizontally
 		for j in range(startX, endX + 1):
 			map[startY][j].ascii = Mapp.HORIZONTAL_WALL_SYMBOL
@@ -224,6 +224,40 @@ class Mapp:
 			print "ERROR: getOutside called with %d" % wall
 			exit() 
 
+	def getNextMove(self, deltaX, deltaY):
+		# each iteration it's a toss-up between at most two directions
+		# we're deciding what our next move will be
+		nextMove = Mapp.NORTH
+		decision = random.randint(0, abs(deltaX) + abs(deltaY) - 1)
+		if decision < abs(deltaX): 
+			if deltaX > 0:
+				nextMove = Mapp.EAST
+			else:
+				nextMove = Mapp.WEST
+		else:
+			if deltaY > 0:
+				nextMove = Mapp.SOUTH
+			else:	
+				nextMove = Mapp.NORTH
+		return nextMove
+
+	def getOtherMove(self, deltaX, deltaY, firstMove):
+		"""
+			a few assumptions here:
+				-if delta == 0, will move northeast
+				-getNextMove will never move opposite to a delta
+		"""
+		northSouthMove = Mapp.NORTH
+		eastWestMove = Mapp.EAST
+		if deltaX < 0:
+			eastWestMove = Mapp.WEST
+		if deltaY < 0:
+			northSouthMove = Mapp.SOUTH 
+		if firstMove == northSouthMove:
+			return eastWestMove
+		else:
+			return northSouthMove
+
 	def addPath(self): 
 		"""
 			add a path between two rooms
@@ -251,11 +285,11 @@ class Mapp:
 		while not (curX == goalX and curY == goalY):
 			deltaX = goalX - curX
 			deltaY = goalY - curY
+			nextMove = self.getNextMove(deltaX, deltaY)
+			backupMove = self.getOtherMove(deltaX, deltaY, nextMove)
 		"""
-		
 
 if __name__=="__main__":
 	map = Mapp() 
-	map.prnt() 
 	map.addRooms() 
 	map.prnt()
