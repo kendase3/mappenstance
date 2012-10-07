@@ -3,18 +3,9 @@
 import sys
 import random
 
-class Cell:
-	def __init__(self):
-		self.ascii = Mapp.EMPTY_SYMBOL
-
-class Room:
-	def __init__(self, id, x, y, width, height):
-		self.id = id
-		self.x = x 
-		self.y = y 
-		self.width = width 
-		self.height = height 
-		self.neighbors = [] 
+# locals
+from cell import Cell
+from room import Room
 
 class Mapp:
 	"""
@@ -29,13 +20,6 @@ class Mapp:
 	DEFAULT_MAX_ROOM_WIDTH = 8 
 	DEFAULT_MAX_ROOM_HEIGHT = 5 
 	DEFAULT_MAX_TRIES = 30
-	HORIZONTAL_WALL_SYMBOL = '-' 
-	VERTICAL_WALL_SYMBOL = '|' 
-	TOP_CORNER_SYMBOL = '-' 
-	BOTTOM_CORNER_SYMBOL = '-' 
-	EMPTY_SYMBOL = ' ' 
-	FLOOR_SYMBOL = '.'
-	DOOR_SYMBOL = '+'
 	NORTH = 0
 	EAST = 1
 	SOUTH = 2
@@ -89,7 +73,7 @@ class Mapp:
 		self.roomList = []
 		for row in self.cells:
 			for cell in row:
-				cell.ascii = Mapp.EMPTY_SYMBOL
+				cell.ascii = Cell.EMPTY_SYMBOL
 
 	def prnt(self):
 		for row in self.cells:
@@ -149,7 +133,7 @@ class Mapp:
 				adjEndY = self.height - 1
 			for i in range(adjStartY, adjEndY + 1):
 				for j in range(adjStartX, adjEndX + 1):
-					if map[i][j].ascii != Mapp.EMPTY_SYMBOL:
+					if map[i][j].ascii != Cell.EMPTY_SYMBOL:
 						passes = False
 			# if the perimeter is all wall, then we can dig out a room
 			if passes:
@@ -163,21 +147,21 @@ class Mapp:
 				startX, startY, endX, endY)
 		# first we draw the walls horizontally
 		for j in range(startX, endX + 1):
-			map[startY][j].ascii = Mapp.HORIZONTAL_WALL_SYMBOL
-			map[endY][j].ascii = Mapp.HORIZONTAL_WALL_SYMBOL
+			map[startY][j].ascii = Cell.HORIZONTAL_WALL_SYMBOL
+			map[endY][j].ascii = Cell.HORIZONTAL_WALL_SYMBOL
 		# then we draw the walls vertically
 		for i in range(startY, endY + 1):
-			map[i][startX].ascii = Mapp.VERTICAL_WALL_SYMBOL
-			map[i][endX].ascii = Mapp.VERTICAL_WALL_SYMBOL 
+			map[i][startX].ascii = Cell.VERTICAL_WALL_SYMBOL
+			map[i][endX].ascii = Cell.VERTICAL_WALL_SYMBOL 
 		# then we draw the corners
-		map[startY][startX].ascii = Mapp.TOP_CORNER_SYMBOL
-		map[startY][endX].ascii = Mapp.TOP_CORNER_SYMBOL
-		map[endY][startX].ascii = Mapp.BOTTOM_CORNER_SYMBOL
-		map[endY][endX].ascii = Mapp.BOTTOM_CORNER_SYMBOL
+		map[startY][startX].ascii = Cell.TOP_CORNER_SYMBOL
+		map[startY][endX].ascii = Cell.TOP_CORNER_SYMBOL
+		map[endY][startX].ascii = Cell.BOTTOM_CORNER_SYMBOL
+		map[endY][endX].ascii = Cell.BOTTOM_CORNER_SYMBOL
 		# then we draw the innards
 		for i in range(startY + 1, endY):
 			for j in range(startX + 1, endX):
-				map[i][j].ascii = Mapp.FLOOR_SYMBOL 
+				map[i][j].ascii = Cell.FLOOR_SYMBOL 
 		# then we make this room easier to find
 		# rooms should denote their contents though, not the walls
 		newRoom = Room(len(self.roomList), 
