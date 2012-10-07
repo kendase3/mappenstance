@@ -8,11 +8,13 @@ class Cell:
 		self.ascii = Mapp.EMPTY_SYMBOL
 
 class Room:
-	def __init__(self, x, y, width, height):
+	def __init__(self, id, x, y, width, height):
+		self.id = id
 		self.x = x 
 		self.y = y 
 		self.width = width 
 		self.height = height 
+		self.neighbors = [] 
 
 class Mapp:
 	"""
@@ -33,6 +35,11 @@ class Mapp:
 	BOTTOM_CORNER_SYMBOL = '-' 
 	EMPTY_SYMBOL = ' ' 
 	FLOOR_SYMBOL = '.'
+	DOOR_SYMBOL = '+'
+	NORTH = 0
+	EAST = 1
+	SOUTH = 2
+	WEST = 3
 
 	def __init__(self, width = None, height = None, minRooms = None, 
 				maxRooms = None, minRoomWidth = None, maxRoomWidth = None, 
@@ -173,16 +180,82 @@ class Mapp:
 				map[i][j].ascii = Mapp.FLOOR_SYMBOL 
 		# then we make this room easier to find
 		# rooms should denote their contents though, not the walls
-		newRoom = Room(startX + 1, startY + 1, 
+		newRoom = Room(len(self.roomList), 
+				startX + 1, startY + 1, 
 				endX - startX - 2, endY - startY - 2)
 		self.roomList.append(newRoom)
 		return True
 
-map = Mapp() 
-map.prnt() 
-map.addRooms() 
-map.prnt()
-for room in map.roomList:
-	map.cells[room.y][room.x].ascii = 's' 
-	map.cells[room.y + room.height][room.x + room.width].ascii = 'e' 
-map.prnt()
+	def getRandomWall(self, startRoomIndex):
+		"""
+			return the x, y coordinates of a piece on the wall,
+					as well as a direction outward from the room
+		"""
+		startRoom = self.roomList[startRoomIndex] 	
+		wall = random.randint(0, 3)
+		x = 0
+		y = 0
+		if wall == Mapp.NORTH: # then north wall
+			x = random.randint(startRoom.x, startRoom.x + startRoom.width) 
+			y = startRoom.y - 1	
+			
+		elif wall == Mapp.EAST: # then east wall
+			x = startRoom.x + startRoom.width + 1	
+			y = random.randint(startRoom.y, startRoom.y + startRoom.height)
+		elif wall == Mapp.SOUTH: # then south wall
+			x = random.randint(startRoom.x, startRoom.x + startRoom.width)
+			y = startRoom.y + startRoom.height + 1
+		elif wall == Mapp.WEST: # then west wall
+			x = startRoom.x - 1
+			y = random.randint(startRoom.y, startRoom.y + startRoom.height)
+
+		return x, y, wall
+
+	def getOutside(self, x, y, wall):
+		if wall == Mapp.NORTH:
+			return x, y - 1
+		elif wall == Mapp.EAST:
+			return x + 1, y
+		elif wall == Mapp.SOUTH:
+			return x, y + 1
+		elif wall == Mapp.WEST:
+			return x - 1, y
+		else:
+			print "ERROR: getOutside called with %d" % wall
+			exit() 
+
+	def addPath(self): 
+		"""
+			add a path between two rooms
+
+
+			we can find out if the path needs to go
+					north, south, east, west
+		"""
+		if len(self.roomList) == 0:
+			print "ERROR: No rooms!  Cannot create path."
+			return
+		#TODO: keep in mind self-connecting rooms
+		"""
+		startRoom = random.randint(0, len(self.roomList) - 1) 
+		endRoom = random.randint(0, len(self.roomList) - 1) 
+		startX, startY, startWall = getRandomWall(startRoom) 
+		endX, endY, endWall = getRandomWall(endRoom) 
+			# ensure path does not lead to itself 
+			while startX == endX and startY == endY:
+				endX, endY, wall = getRandomWall(endRoom) 
+		self.cells[startY][startX].ascii = Mapp.DOOR_SYMBOL	
+		self.cells[endY][endX].ascii = Mapp.DOOR_SYMBOL	
+		curX, curY = getOutside(startX, startY, startWall)
+		goalX, goalY = getOutside(endX, endY, endWall)  
+		while not (curX == goalX and curY == goalY):
+			deltaX = goalX - curX
+			deltaY = goalY - curY
+		"""
+		
+
+if __name__=="__main__":
+	map = Mapp() 
+	map.prnt() 
+	map.addRooms() 
+	map.prnt()
