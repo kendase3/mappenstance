@@ -20,6 +20,13 @@ class Cell:
 	def __init__(self):
 		self.ascii = Mapp.EMPTY_SYMBOL
 
+class Room:
+	def __init__(self, x, y, width, height):
+		self.x = x 
+		self.y = y 
+		self.width = width 
+		self.height = height 
+
 class Mapp:
 	"""
 		returned list is in [y,x] format
@@ -82,10 +89,10 @@ class Mapp:
 
 		self.cells = [[Cell() for j in range(self.width)] 
 				for i in range(self.height)]
-		self.roomCount = 0
+		self.roomList = [] 
 
 	def reset(self):
-		self.roomCount = 0
+		self.roomList = []
 		for row in self.cells:
 			for cell in row:
 				cell.ascii = Mapp.EMPTY_SYMBOL
@@ -105,7 +112,6 @@ class Mapp:
 				if not self.addRoom():
 					break 
 			if ctr >= self.minRooms:
-				self.roomCount = ctr
 				break
 			else:
 				self.reset()
@@ -178,9 +184,18 @@ class Mapp:
 		for i in range(startY + 1, endY):
 			for j in range(startX + 1, endX):
 				map[i][j].ascii = Mapp.FLOOR_SYMBOL 
+		# then we make this room easier to find
+		# rooms should denote their contents though, not the walls
+		newRoom = Room(startX + 1, startY + 1, 
+				endX - startX - 2, endY - startY - 2)
+		self.roomList.append(newRoom)
 		return True
 
 map = Mapp() 
 map.prnt() 
 map.addRooms() 
+map.prnt()
+for room in map.roomList:
+	map.cells[room.y][room.x].ascii = 's' 
+	map.cells[room.y + room.height][room.x + room.width].ascii = 'e' 
 map.prnt()
