@@ -3,19 +3,6 @@
 import sys
 import random
 
-
-def min(a, b):
-	if a < b:
-		return a
-	else:
-		return b	
-
-def max(a, b):
-	if a > b:
-		return a
-	else:
-		return b
-
 class Cell:
 	def __init__(self):
 		self.ascii = Mapp.EMPTY_SYMBOL
