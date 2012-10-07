@@ -24,22 +24,20 @@ class Mapp:
 	"""
 		returned list is in [y,x] format
 	"""
-	#FIXME: settings not taking effect
-	# specifically, actual MIN is 1 less than designated MIN
 	DEFAULT_MAP_WIDTH = 80 
 	DEFAULT_MAP_HEIGHT = 24 
 	DEFAULT_MIN_ROOMS = 3
-	DEFAULT_MAX_ROOMS = 3
-	DEFAULT_MIN_ROOM_WIDTH = 3 # all include walls 
+	DEFAULT_MAX_ROOMS = 10 
+	DEFAULT_MIN_ROOM_WIDTH = 5 # all disclude walls 
 	DEFAULT_MIN_ROOM_HEIGHT = 3  
-	DEFAULT_MAX_ROOM_WIDTH = 3 
+	DEFAULT_MAX_ROOM_WIDTH = 8 
 	DEFAULT_MAX_ROOM_HEIGHT = 5 
 	DEFAULT_MAX_TRIES = 30
-	HORIZONTAL_WALL_SYMBOL = '_' 
+	HORIZONTAL_WALL_SYMBOL = '-' 
 	VERTICAL_WALL_SYMBOL = '|' 
-	TOP_CORNER_SYMBOL = ' ' 
-	BOTTOM_CORNER_SYMBOL = '|' 
-	EMPTY_SYMBOL = '~' 
+	TOP_CORNER_SYMBOL = '-' 
+	BOTTOM_CORNER_SYMBOL = '-' 
+	EMPTY_SYMBOL = ' ' 
 	FLOOR_SYMBOL = '.'
 
 	def __init__(self, width = None, height = None, minRooms = None, 
@@ -126,7 +124,6 @@ class Mapp:
 			startX = random.randint(0, maxStartX)  
 			startY = random.randint(0, maxStartY)  
 			# 3 because 2 for walls + at least 1 for inside
-			#FIXME: hmm
 			endX = random.randint(
 					min(self.width - 1, 
 							max(startX + 3, startX + self.minRoomWidth + 1)), 
@@ -137,8 +134,7 @@ class Mapp:
 			# we ensure it does not collide with existing rooms
 			# by checking entire proposed innards
 			passes = True
-			# adjust values to leave spaces between rooms
-			"""
+			# adjust values to ensure we leave spaces between rooms
 			adjStartX = startX - 1
 			adjStartY = startY - 1
 			adjEndX = endX + 1
@@ -151,9 +147,8 @@ class Mapp:
 				adjEndX = self.width - 1
 			if adjEndY >= self.height: 
 				adjEndY = self.height - 1
-			"""
-			for i in range(startY, endY + 1):
-				for j in range(startX, endX + 1):
+			for i in range(adjStartY, adjEndY + 1):
+				for j in range(adjStartX, adjEndX + 1):
 					if map[i][j].ascii != Mapp.EMPTY_SYMBOL:
 						passes = False
 			# if the perimeter is all wall, then we can dig out a room
