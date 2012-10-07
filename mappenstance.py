@@ -10,6 +10,12 @@ def min(a, b):
 	else:
 		return b	
 
+def max(a, b):
+	if a > b:
+		return a
+	else:
+		return b
+
 class Cell:
 	def __init__(self):
 		self.ascii = Mapp.EMPTY_SYMBOL
@@ -19,14 +25,15 @@ class Mapp:
 		returned list is in [y,x] format
 	"""
 	#FIXME: settings not taking effect
+	# specifically, actual MIN is 1 less than designated MIN
 	DEFAULT_MAP_WIDTH = 80 
 	DEFAULT_MAP_HEIGHT = 24 
 	DEFAULT_MIN_ROOMS = 3
 	DEFAULT_MAX_ROOMS = 3
-	DEFAULT_MIN_ROOM_WIDTH = 3
-	DEFAULT_MIN_ROOM_HEIGHT = 3 
-	DEFAULT_MAX_ROOM_WIDTH = 40 
-	DEFAULT_MAX_ROOM_HEIGHT = 40 
+	DEFAULT_MIN_ROOM_WIDTH = 3 # all include walls 
+	DEFAULT_MIN_ROOM_HEIGHT = 3  
+	DEFAULT_MAX_ROOM_WIDTH = 3 
+	DEFAULT_MAX_ROOM_HEIGHT = 5 
 	DEFAULT_MAX_TRIES = 30
 	HORIZONTAL_WALL_SYMBOL = '_' 
 	VERTICAL_WALL_SYMBOL = '|' 
@@ -119,8 +126,14 @@ class Mapp:
 			startX = random.randint(0, maxStartX)  
 			startY = random.randint(0, maxStartY)  
 			# 3 because 2 for walls + at least 1 for inside
-			endX = random.randint(startX + 3, min(self.width - 1, startX + self.maxRoomWidth + 1)) 
-			endY = random.randint(startY + 3, min(self.height - 1, startY + self.maxRoomHeight + 1)) 
+			#FIXME: hmm
+			endX = random.randint(
+					min(self.width - 1, 
+							max(startX + 3, startX + self.minRoomWidth + 1)), 
+					min(self.width - 1, startX + self.maxRoomWidth + 1)) 
+			endY = random.randint(min(self.height - 1,
+							max(startY + 3, startY + self.minRoomHeight + 1)), 
+					min(self.height - 1, startY + self.maxRoomHeight + 1)) 
 			# we ensure it does not collide with existing rooms
 			# by checking entire proposed innards
 			passes = True
