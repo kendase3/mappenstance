@@ -21,9 +21,9 @@ class Mapp:
 	#FIXME: settings not taking effect
 	DEFAULT_MAP_WIDTH = 80 
 	DEFAULT_MAP_HEIGHT = 24 
-	DEFAULT_MIN_ROOMS = 3 
-	DEFAULT_MAX_ROOMS = 3 
-	DEFAULT_MIN_ROOM_WIDTH = 3   
+	DEFAULT_MIN_ROOMS = 3
+	DEFAULT_MAX_ROOMS = 3
+	DEFAULT_MIN_ROOM_WIDTH = 3
 	DEFAULT_MIN_ROOM_HEIGHT = 3 
 	DEFAULT_MAX_ROOM_WIDTH = 40 
 	DEFAULT_MAX_ROOM_HEIGHT = 40 
@@ -96,7 +96,7 @@ class Mapp:
 		#TODO: appraise this
 		while True:
 			for i in range(0, self.maxRooms):
-				ctr = i
+				ctr = i + 1
 				if not self.addRoom():
 					break 
 			if ctr >= self.minRooms:
