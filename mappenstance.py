@@ -65,7 +65,9 @@ class Mapp:
 		else:
 			self.maxTries = maxTries
 
-		self.cells = [[Cell() for j in range(self.width)] 
+		#FIXME: cells should ultimately not be self-aware of location
+		#		if this can be avoided (it can ^_^)
+		self.cells = [[Cell(j, i) for j in range(self.width)] 
 				for i in range(self.height)]
 		self.roomList = [] 
 

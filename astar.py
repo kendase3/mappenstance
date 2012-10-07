@@ -6,10 +6,8 @@
 
 import math
 
-class Cell:
-	def __init__(self, x, y):
-		self.x = x
-		self.y = y
+# locals
+from cell import Cell
 
 def heuristic(src, dst):
 	# we return the distance via pythag's 
