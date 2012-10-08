@@ -6,6 +6,7 @@ import random
 # locals
 from cell import Cell
 from room import Room
+from astar import aStar
 
 class Mapp:
 	"""
@@ -65,9 +66,7 @@ class Mapp:
 		else:
 			self.maxTries = maxTries
 
-		#FIXME: cells should ultimately not be self-aware of location
-		#		if this can be avoided (it can ^_^)
-		self.cells = [[Cell(j, i) for j in range(self.width)] 
+		self.cells = [[Cell() for j in range(self.width)] 
 				for i in range(self.height)]
 		self.roomList = [] 
 
@@ -279,3 +278,4 @@ if __name__=="__main__":
 	map = Mapp() 
 	map.addRooms() 
 	map.prnt()
+	aStar(map.cells, 0, 0, 10, 10)

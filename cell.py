@@ -7,7 +7,5 @@ class Cell:
 	EMPTY_SYMBOL = ' ' 
 	FLOOR_SYMBOL = '.'
 	DOOR_SYMBOL = '+'
-	def __init__(self, x, y):
+	def __init__(self):
 		self.ascii = Cell.EMPTY_SYMBOL
-		self.x = x
-		self.y = y
