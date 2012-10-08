@@ -278,4 +278,4 @@ if __name__=="__main__":
 	map = Mapp() 
 	map.addRooms() 
 	map.prnt()
-	aStar(map.cells, 0, 0, 10, 10)
+	aStar(map.cells, 0, 0, 1, 1)

@@ -31,15 +31,18 @@ class Node:
 		self.heuristic = getHeuristic(x, y, dstX, dstY) 
 		self.score = self.cost + self.heuristic
 
+	def __repr__(self):
+		return 'x=%d,y=%d' % (self.x, self.y)
+
 	def getCellCost(self):
-		if self.cell == Node.ROCK_CELL:
+		if self.cell.ascii == Node.ROCK_CELL:
 			return Node.ROCK_COST
-		elif self.cell == Node.WALL_CELL:
+		elif self.cell.ascii == Node.WALL_CELL:
 			return Node.WALL_COST
-		elif self.cell == Node.ROOM_CELL:
+		elif self.cell.ascii == Node.ROOM_CELL:
 			return Node.ROOM_COST
 		else:
-			print "oh heavens me!  assume a wall!"
+			print "oh heavens me!  assume a wall, found this sym: %c!" % self.cell 
 			return Node.WALL_COST 
 	
 	def __eq__(self, other):
@@ -47,16 +50,6 @@ class Node:
 			return True	
 		else:
 			return False
-
-def getLowestCostNode(lst):
-	"""
-		precondition: list is not empty
-	""" 
-	curLowest = lst[0] 	
-	for node in lst:
-		if node.cost < curLowest.cost:
-			curLowest = node
-	return curLowest
 
 def getLowestScoreNode(lst):
 	"""
@@ -123,10 +116,21 @@ def aStar(map, srcX, srcY, dstX, dstY):
 	closedSet = [] 	
 	startNode = Node(map, srcX, srcY, dstX, dstY, None)
 	openSet.append(startNode)  
+	itr = 0
 	while len(openSet) != 0:
+		print "on itr %d!" % itr
+		itr += 1
 		curCandidate = getLowestScoreNode(openSet) 
 		if curCandidate.x == dstX and curCandidate.y == dstY:
 			print "success!" #TODO: print path taken
+			path = [] 
+			curNode = curCandidate
+			while curNode.x != srcX and curNode.y != srcY:
+				path.append(curNode)
+				curNode = curNode.prev
+			path.reverse() 
+			print path
+			return
 		openSet.remove(curCandidate) 
 		closedSet.append(curCandidate) 
 		# add this node's neighbors to the open list
