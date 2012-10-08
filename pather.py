@@ -78,10 +78,6 @@ class Pather:
 		while len(unconnectedRooms) > 0:
 			startRoomIndex = random.randint(0, len(connectedRooms) - 1) 
 			endRoomIndex = random.randint(0, len(unconnectedRooms) - 1)
-			print "starting at room %d, ending at room %d" % (
-					startRoomIndex, endRoomIndex) 
-			print "connectedRooms: %s" % repr(connectedRooms)
-			print "unconnectedRooms: %s" % repr(unconnectedRooms)
 			self.addPath(mapp, connectedRooms[startRoomIndex].id, 
 					unconnectedRooms[endRoomIndex].id) 
 			connectedRooms.append(unconnectedRooms.pop(endRoomIndex))
@@ -126,8 +122,6 @@ class Pather:
 		"""
 		path = aStar(mapp.cells, beginX, beginY, goalX, goalY) 
 		for coord in path:
-			#print "addpath assigning value of cell x=%d, y=%d" % (
-			#		coord.x, coord.y)
 			mapp.cells[coord.y][coord.x].ascii = Cell.CORRIDOR_SYMBOL	
-		#TODO: include door cells? 
+		#TODO: include door cells?  or src and dst room id's? 
 		mapp.pathList.append(path) 
