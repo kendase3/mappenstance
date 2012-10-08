@@ -7,9 +7,9 @@ from cell import Cell
 from room import Room
 
 class Roomer: 
-	DEFAULT_MIN_ROOMS = 3
+	DEFAULT_MIN_ROOMS = 2 
 	DEFAULT_MAX_ROOMS = 10 
-	DEFAULT_MIN_ROOM_WIDTH = 5 # all disclude walls 
+	DEFAULT_MIN_ROOM_WIDTH = 3 # all disclude walls 
 	DEFAULT_MIN_ROOM_HEIGHT = 3  
 	DEFAULT_MAX_ROOM_WIDTH = 8 
 	DEFAULT_MAX_ROOM_HEIGHT = 5 

@@ -124,7 +124,7 @@ def aStar(map, srcX, srcY, dstX, dstY):
 	openSet.append(startNode)  
 	itr = 0
 	while len(openSet) != 0:
-		print "on itr %d!" % itr
+		#print "on itr %d!" % itr
 		itr += 1
 		curCandidate = getLowestScoreNode(openSet) 
 		if curCandidate.x == dstX and curCandidate.y == dstY:
@@ -136,6 +136,8 @@ def aStar(map, srcX, srcY, dstX, dstY):
 				path.append(coord)
 				curNode = curNode.prev
 			path.reverse() 
+			print "path begins at x=%d,y=%d" % (path[0].x, path[0].y)
+			print "path ends at x=%d,y=%d" % (path[-1].x, path[-1].y)
 			return path 
 		openSet.remove(curCandidate) 
 		closedSet.append(curCandidate) 

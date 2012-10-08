@@ -79,6 +79,8 @@ class Pather:
 		mapp.cells[endWallY][endWallX].ascii = Cell.DOOR_SYMBOL	
 		beginX, beginY = self.getOutside(startWallX, startWallY, startWall)
 		goalX, goalY = self.getOutside(endWallX, endWallY, endWall)  
+		print "beginX=%d, beginY=%d" % (beginX, beginY)
+		print "goalX=%d, goalY=%d" % (goalX, goalY)
 		path = aStar(mapp.cells, beginX, beginY, goalX, goalY) 
 		for coord in path:
 			mapp.cells[coord.y][coord.x].ascii = Cell.CORRIDOR_SYMBOL	
