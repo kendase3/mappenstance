@@ -16,28 +16,28 @@ class Pather:
 				but that is as simple as creating a full circuit
 		"""
 
-	def getRandomWall(self, map, startRoomIndex):
+	def getRandomWall(self, map, roomIndex):
 		"""
 			return the x, y coordinates of a piece on the wall,
 					as well as a direction outward from the room
 		"""
-		startRoom = map.roomList[startRoomIndex] 	
+		room = map.roomList[roomIndex] 	
 		wall = random.randint(0, 3)
 		x = 0
 		y = 0
 		if wall == Mapp.NORTH: # then north wall
-			x = random.randint(startRoom.x, startRoom.x + startRoom.width) 
-			y = startRoom.y - 1	
+			x = random.randint(room.x, room.x + room.width) 
+			y = room.y - 1	
 			
 		elif wall == Mapp.EAST: # then east wall
-			x = startRoom.x + startRoom.width + 1	
-			y = random.randint(startRoom.y, startRoom.y + startRoom.height)
+			x = room.x + room.width + 1	
+			y = random.randint(room.y, room.y + room.height)
 		elif wall == Mapp.SOUTH: # then south wall
-			x = random.randint(startRoom.x, startRoom.x + startRoom.width)
-			y = startRoom.y + startRoom.height + 1
+			x = random.randint(room.x, room.x + room.width)
+			y = room.y + room.height + 1
 		elif wall == Mapp.WEST: # then west wall
-			x = startRoom.x - 1
-			y = random.randint(startRoom.y, startRoom.y + startRoom.height)
+			x = room.x - 1
+			y = random.randint(room.y, room.y + room.height)
 
 		return x, y, wall
 
@@ -80,6 +80,20 @@ class Pather:
 			self.addPath(mapp, startRoomIndex, endRoomIndex) 
 			connectedRooms.append(unconnectedRooms.pop(endRoomIndex))
 
+	def getStartLocation(self, mapp, startRoomIndex, endRoomIndex): 
+		startWallX, startWallY, startWall = self.getRandomWall(
+				mapp, startRoomIndex) 
+		endWallX, endWallY, endWall = self.getRandomWall(mapp, endRoomIndex) 
+			# ensure path does not lead to itself 
+		while startWallX == endWallX and startWallY == endWallY:
+			endWallX, endWallY, wall = self.getRandomWall(mapp, endRoomIndex) 
+		mapp.cells[startWallY][startWallX].ascii = Cell.DOOR_SYMBOL	
+		mapp.cells[endWallY][endWallX].ascii = Cell.DOOR_SYMBOL	
+		beginX, beginY = self.getOutside(startWallX, startWallY, startWall)
+		# we need to check bounds on our outside cells 
+		goalX, goalY = self.getOutside(endWallX, endWallY, endWall)  
+		return beginX, beginY, goalX, goalY
+
 	def addPath(self, mapp, startRoomIndex, endRoomIndex): 
 		"""
 			add a path between two rooms
@@ -95,22 +109,13 @@ class Pather:
 			print "ERROR: No rooms!  Cannot create path."
 			return
 		#REM: keep in mind self-connecting rooms
-		startWallX, startWallY, startWall = self.getRandomWall(
-				mapp, startRoomIndex) 
-		endWallX, endWallY, endWall = self.getRandomWall(mapp, endRoomIndex) 
-			# ensure path does not lead to itself 
-		while startWallX == endWallX and startWallY == endWallY:
-			endWallX, endWallY, wall = self.getRandomWall(mapp, endRoom) 
-		mapp.cells[startWallY][startWallX].ascii = Cell.DOOR_SYMBOL	
-		mapp.cells[endWallY][endWallX].ascii = Cell.DOOR_SYMBOL	
-		beginX, beginY = self.getOutside(startWallX, startWallY, startWall)
-		# we need to check bounds on our outside cells 
-		goalX, goalY = self.getOutside(endWallX, endWallY, endWall)  
+		beginX, beginY, goalX, goalY = self.getStartLocation(
+				mapp, startRoomIndex, endRoomIndex)
 		while not (
 				self.withinBounds(mapp, beginX, beginY) and
 				self.withinBounds(mapp, goalX, goalY)):
-			beginX, beginY = self.getOutside(startWallX, startWallY, startWall)
-			goalX, goalY = self.getOutside(endWallX, endWallY, endWall)
+			beginX, beginY, goalX, goalY = self.getStartLocation(mapp, 
+					startRoomIndex, endRoomIndex)
 		path = aStar(mapp.cells, beginX, beginY, goalX, goalY) 
 		for coord in path:
 			#FIXME: some of these paths are negative indices!
