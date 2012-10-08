@@ -8,7 +8,7 @@ class Mapp:
 		returned list is in [y,x] format
 	"""
 	DEFAULT_MAP_WIDTH = 80 
-	DEFAULT_MAP_HEIGHT = 10 
+	DEFAULT_MAP_HEIGHT = 25 
 	NORTH = 0
 	EAST = 1
 	SOUTH = 2

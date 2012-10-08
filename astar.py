@@ -125,16 +125,20 @@ def aStar(map, srcX, srcY, dstX, dstY):
 	itr = 0
 	while len(openSet) != 0:
 		#print "on itr %d!" % itr
+		#FIXME: need to include final cell
 		itr += 1
 		curCandidate = getLowestScoreNode(openSet) 
 		if curCandidate.x == dstX and curCandidate.y == dstY:
 			print "success!" 
 			path = [] 
 			curNode = curCandidate
-			while curNode.x != srcX and curNode.y != srcY:
+			while not (curNode.x == srcX and curNode.y == srcY):
 				coord = Coord(curNode.x, curNode.y)
 				path.append(coord)
 				curNode = curNode.prev
+			# we also add this last one
+			coord = Coord(curNode.x, curNode.y)
+			path.append(coord)
 			path.reverse() 
 			print "path begins at x=%d,y=%d" % (path[0].x, path[0].y)
 			print "path ends at x=%d,y=%d" % (path[-1].x, path[-1].y)
