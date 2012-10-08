@@ -79,7 +79,7 @@ class Pather:
 		"""
 		connectedRooms = []
 		unconnectedRooms = mapp.roomList[:] 
-		connectedRooms.append(unconnectedRooms.pop()) 
+		connectedRooms.append(unconnectedRooms.pop(0)) 
 		while len(unconnectedRooms) > 0:
 			startRoomIndex = random.randint(0, len(connectedRooms) - 1) 
 			endRoomIndex = random.randint(0, len(unconnectedRooms) - 1)
