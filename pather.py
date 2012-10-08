@@ -54,6 +54,25 @@ class Pather:
 			print "ERROR: getOutside called with %d" % wall
 			exit() 
 
+	def addPaths(self, mapp):
+		"""
+			ensure rooms are fully connected
+
+			add paths until edges = rooms - 1
+		"""
+		connectedRooms = []
+		unconnectedRooms = mapp.roomList[:] 
+		connectedRooms.append(unconnectedRooms.pop()) 
+		while len(unconnectedRooms) > 0:
+			startRoomIndex = random.randint(0, len(connectedRooms) - 1) 
+			endRoomIndex = random.randint(0, len(unconnectedRooms) - 1)
+			print "starting at room %d, ending at room %d" % (
+					startRoomIndex, endRoomIndex) 
+			print "connectedRooms: %s" % repr(connectedRooms)
+			print "unconnectedRooms: %s" % repr(unconnectedRooms)
+			self.addPath(mapp, startRoomIndex, endRoomIndex) 
+			connectedRooms.append(unconnectedRooms.pop(endRoomIndex))
+
 	def addPath(self, mapp, startRoomIndex, endRoomIndex): 
 		"""
 			add a path between two rooms
@@ -74,13 +93,15 @@ class Pather:
 		endWallX, endWallY, endWall = self.getRandomWall(mapp, endRoomIndex) 
 			# ensure path does not lead to itself 
 		while startWallX == endWallX and startWallY == endWallY:
-			endWallX, endWallY, wall = getRandomWall(endRoom) 
+			endWallX, endWallY, wall = self.getRandomWall(mapp, endRoom) 
 		mapp.cells[startWallY][startWallX].ascii = Cell.DOOR_SYMBOL	
 		mapp.cells[endWallY][endWallX].ascii = Cell.DOOR_SYMBOL	
 		beginX, beginY = self.getOutside(startWallX, startWallY, startWall)
 		goalX, goalY = self.getOutside(endWallX, endWallY, endWall)  
 		path = aStar(mapp.cells, beginX, beginY, goalX, goalY) 
 		for coord in path:
+			print "addpath assigning value of cell x=%d, y=%d" % (
+					coord.x, coord.y)
 			mapp.cells[coord.y][coord.x].ascii = Cell.CORRIDOR_SYMBOL	
 		#TODO: include door cells? 
 		mapp.pathList.append(path) 

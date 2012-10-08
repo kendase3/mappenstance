@@ -19,6 +19,7 @@ class Node:
 	ROOM_COST = 1E5
 	DOOR_COST = 1E7
 	def __init__(self, mapcells, x, y, dstX, dstY, prev = None):
+		print "adding cell at x=%d, y=%d" % (x, y)
 		self.cell = mapcells[y][x] 
 		self.x = x
 		self.y = y
@@ -79,7 +80,7 @@ def getNode(node, set):
 			return curNode
 	return None	
 
-def addNeighbors(curNode, openSet, closedSet, map, dstX, dstY):
+def addNeighbors(curNode, openSet, closedSet, mapCells, dstX, dstY):
 	"""
 		add the current node's neighbors to the open list
 	"""
@@ -87,22 +88,24 @@ def addNeighbors(curNode, openSet, closedSet, map, dstX, dstY):
 	if curNode.x != 0:
 		x = curNode.x - 1
 		y = curNode.y
-		neighbors.append(Node(map, x, y, 
+		neighbors.append(Node(mapCells, x, y, 
 				dstX, dstY, curNode))	
-	if curNode.x < (len(map[0]) - 1): 
+	if curNode.x < (len(mapCells[0]) - 1): 
 		x = curNode.x + 1
 		y = curNode.y
-		neighbors.append(Node(map, x, y, 
+		neighbors.append(Node(mapCells, x, y, 
 				dstX, dstY, curNode))	
 	if curNode.y != 0:
 		x = curNode.x
 		y = curNode.y - 1
-		neighbors.append(Node(map, x, y, 
+		neighbors.append(Node(mapCells, x, y, 
 				dstX, dstY, curNode))	
-	if curNode.y < (len(map) - 1):
+	#FIXME: does not check successfully
+	if curNode.y < (len(mapCells) - 1):
+		print "IS %d < %d?" % (curNode.y, len(mapCells) - 1)
 		x = curNode.x
 		y = curNode.y + 1
-		neighbors.append(Node(map, x, y, 
+		neighbors.append(Node(mapCells, x, y, 
 				dstX, dstY, curNode))	
 	for neighbor in neighbors:
 		if not hasNode(neighbor.x, neighbor.y, closedSet):
@@ -117,10 +120,10 @@ def addNeighbors(curNode, openSet, closedSet, map, dstX, dstY):
 			else:
 				openSet.append(neighbor)
 
-def aStar(map, srcX, srcY, dstX, dstY):
+def aStar(mapCells, srcX, srcY, dstX, dstY):
 	openSet = []
 	closedSet = [] 	
-	startNode = Node(map, srcX, srcY, dstX, dstY, None)
+	startNode = Node(mapCells, srcX, srcY, dstX, dstY, None)
 	openSet.append(startNode)  
 	itr = 0
 	while len(openSet) != 0:
@@ -146,7 +149,7 @@ def aStar(map, srcX, srcY, dstX, dstY):
 		openSet.remove(curCandidate) 
 		closedSet.append(curCandidate) 
 		# add this node's neighbors to the open list
-		addNeighbors(curCandidate, openSet, closedSet, map, dstX, dstY)
+		addNeighbors(curCandidate, openSet, closedSet, mapCells, dstX, dstY)
 	print "oh no!"
 		
 
