@@ -10,13 +10,13 @@ from mapp import Mapp
 from astar import aStar
 from coord import Coord
 from roomer import Roomer
-
+from pather import Pather
 
 if __name__=="__main__":
 	map = Mapp() 
 	roomer = Roomer()
 	roomer.addRooms(map) 
 	map.prnt()
-	#pather = Pather() 	
-	#path = aStar(map.cells, 0, 0, 1, 1)
-	#print path
+	pather = Pather() 	
+	pather.addPath(map, 0, 1)
+	map.prnt()

@@ -18,8 +18,8 @@ class Node:
 	WALL_COST = 1E5 # arbitrarily high number 
 	ROOM_COST = 1E5
 	DOOR_COST = 1E7
-	def __init__(self, map, x, y, dstX, dstY, prev = None):
-		self.cell = map[y][x] 
+	def __init__(self, mapcells, x, y, dstX, dstY, prev = None):
+		self.cell = mapcells[y][x] 
 		self.x = x
 		self.y = y
 		self.prev = prev

@@ -1,15 +1,27 @@
 
-class Pather:
-	def __init__(self):
-		#TODO
-		pass
+import random
 
-	def getRandomWall(self, startRoomIndex):
+# locals
+from cell import Cell
+from mapp import Mapp
+from coord import Coord
+from astar import aStar
+class Pather:
+	#TODO: constants to adjust
+	def __init__(self ):
+		"""
+			the initial goal is simply full connectivity between rooms
+	
+			eventually redundant paths between all rooms will be necessary
+				but that is as simple as creating a full circuit
+		"""
+
+	def getRandomWall(self, map, startRoomIndex):
 		"""
 			return the x, y coordinates of a piece on the wall,
 					as well as a direction outward from the room
 		"""
-		startRoom = self.roomList[startRoomIndex] 	
+		startRoom = map.roomList[startRoomIndex] 	
 		wall = random.randint(0, 3)
 		x = 0
 		y = 0
@@ -42,32 +54,33 @@ class Pather:
 			print "ERROR: getOutside called with %d" % wall
 			exit() 
 
-	def addPath(self): 
+	def addPath(self, mapp, startRoomIndex, endRoomIndex): 
 		"""
 			add a path between two rooms
 
 
 			we can find out if the path needs to go
 					north, south, east, west
+	
+			TODO: should be able to specify startX/Y, endX/Y
+				or less specifically start wall and end wall
 		"""
-		if len(self.roomList) == 0:
+		if len(mapp.roomList) == 0:
 			print "ERROR: No rooms!  Cannot create path."
 			return
 		#TODO: keep in mind self-connecting rooms
-		startRoom = random.randint(0, len(self.roomList) - 1) 
-		endRoom = random.randint(0, len(self.roomList) - 1) 
-		startX, startY, startWall = getRandomWall(startRoom) 
-		endX, endY, endWall = getRandomWall(endRoom) 
+		startWallX, startWallY, startWall = self.getRandomWall(
+				mapp, startRoomIndex) 
+		endWallX, endWallY, endWall = self.getRandomWall(mapp, endRoomIndex) 
 			# ensure path does not lead to itself 
-		while startX == endX and startY == endY:
-			endX, endY, wall = getRandomWall(endRoom) 
-		self.cells[startY][startX].ascii = Mapp.DOOR_SYMBOL	
-		self.cells[endY][endX].ascii = Mapp.DOOR_SYMBOL	
-		curX, curY = getOutside(startX, startY, startWall)
-		goalX, goalY = getOutside(endX, endY, endWall)  
-		while not (curX == goalX and curY == goalY):
-			deltaX = goalX - curX
-			deltaY = goalY - curY
-			nextMove = self.getNextMove(deltaX, deltaY)
-			backupMove = self.getOtherMove(deltaX, deltaY, nextMove)
-
+		while startWallX == endWallX and startWallY == endWallY:
+			endWallX, endWallY, wall = getRandomWall(endRoom) 
+		mapp.cells[startWallY][startWallX].ascii = Cell.DOOR_SYMBOL	
+		mapp.cells[endWallY][endWallX].ascii = Cell.DOOR_SYMBOL	
+		beginX, beginY = self.getOutside(startWallX, startWallY, startWall)
+		goalX, goalY = self.getOutside(endWallX, endWallY, endWall)  
+		path = aStar(mapp.cells, beginX, beginY, goalX, goalY) 
+		for coord in path:
+			mapp.cells[coord.y][coord.x].ascii = Cell.CORRIDOR_SYMBOL	
+		#TODO: include door cells? 
+		mapp.pathList.append(path) 

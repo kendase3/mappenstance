@@ -20,10 +20,14 @@ class Roomer:
 				maxTries = None):
 		self.minRooms = noneSet(minRooms, Roomer.DEFAULT_MIN_ROOMS) 
 		self.maxRooms = noneSet(maxRooms, Roomer.DEFAULT_MAX_ROOMS) 
-		self.minRoomWidth = noneSet(minRoomWidth, Roomer.DEFAULT_MIN_ROOM_WIDTH) 
-		self.minRoomHeight = noneSet(minRoomHeight, Roomer.DEFAULT_MIN_ROOM_HEIGHT) 
-		self.maxRoomWidth = noneSet(maxRoomWidth, Roomer.DEFAULT_MAX_ROOM_WIDTH) 
-		self.maxRoomHeight = noneSet(maxRoomHeight, Roomer.DEFAULT_MAX_ROOM_HEIGHT) 
+		self.minRoomWidth = noneSet(
+				minRoomWidth, Roomer.DEFAULT_MIN_ROOM_WIDTH) 
+		self.minRoomHeight = noneSet(
+				minRoomHeight, Roomer.DEFAULT_MIN_ROOM_HEIGHT) 
+		self.maxRoomWidth = noneSet(
+				maxRoomWidth, Roomer.DEFAULT_MAX_ROOM_WIDTH) 
+		self.maxRoomHeight = noneSet(
+				maxRoomHeight, Roomer.DEFAULT_MAX_ROOM_HEIGHT) 
 		self.maxTries = noneSet(maxTries, Roomer.DEFAULT_MAX_TRIES)
 
 	def addRooms(self, map):  

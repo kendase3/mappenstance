@@ -27,6 +27,7 @@ class Mapp:
 		self.cells = [[Cell() for j in range(self.width)] 
 				for i in range(self.height)]
 		self.roomList = [] 
+		self.pathList = []
 
 	def reset(self):
 		self.roomList = []
