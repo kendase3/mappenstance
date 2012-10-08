@@ -19,7 +19,6 @@ class Node:
 	ROOM_COST = 1E5
 	DOOR_COST = 1E7
 	def __init__(self, mapcells, x, y, dstX, dstY, prev = None):
-		print "adding cell at x=%d, y=%d" % (x, y)
 		self.cell = mapcells[y][x] 
 		self.x = x
 		self.y = y
@@ -100,9 +99,7 @@ def addNeighbors(curNode, openSet, closedSet, mapCells, dstX, dstY):
 		y = curNode.y - 1
 		neighbors.append(Node(mapCells, x, y, 
 				dstX, dstY, curNode))	
-	#FIXME: does not check successfully
 	if curNode.y < (len(mapCells) - 1):
-		print "IS %d < %d?" % (curNode.y, len(mapCells) - 1)
 		x = curNode.x
 		y = curNode.y + 1
 		neighbors.append(Node(mapCells, x, y, 
@@ -125,11 +122,7 @@ def aStar(mapCells, srcX, srcY, dstX, dstY):
 	closedSet = [] 	
 	startNode = Node(mapCells, srcX, srcY, dstX, dstY, None)
 	openSet.append(startNode)  
-	itr = 0
 	while len(openSet) != 0:
-		#print "on itr %d!" % itr
-		#FIXME: need to include final cell
-		itr += 1
 		curCandidate = getLowestScoreNode(openSet) 
 		if curCandidate.x == dstX and curCandidate.y == dstY:
 			print "success!" 

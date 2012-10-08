@@ -6,4 +6,7 @@ class Room:
 		self.y = y 
 		self.width = width 
 		self.height = height 
-		self.neighbors = [] 
+	
+	def __repr__(self):
+		return "Room: id=%d, x=%d, y=%d, width=%d, height=%d" % (
+				self.id, self.x, self.y, self.width, self.height) 
