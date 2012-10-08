@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 """
-	an implementation of the a star algorithm
-
+	an implementation of the A* algorithm
 """
 
 import math
@@ -14,9 +13,11 @@ class Node:
 	"""
 		self-aware x,y wrapper for cells in a-star
 	"""
-	ROCK_COST = 1
-	WALL_COST = 1E5
+	CORRIDOR_COST = 1
+	ROCK_COST = 3 
+	WALL_COST = 1E5 # arbitrarily high number 
 	ROOM_COST = 1E5
+	DOOR_COST = 1E7
 	def __init__(self, map, x, y, dstX, dstY, prev = None):
 		self.cell = map[y][x] 
 		self.x = x
@@ -42,6 +43,10 @@ class Node:
 			return Node.WALL_COST
 		elif self.cell.ascii == Cell.FLOOR_SYMBOL:
 			return Node.ROOM_COST
+		elif self.cell.ascii == Cell.CORRIDOR_SYMBOL:
+			return Node.CORRIDOR_COST
+		elif self.cell.ascii == Cell.DOOR_SYMBOL:
+			return Node.DOOR_COST
 		else:
 			print "ERROR: unknown symbol %c, assuming wall!" % self.cell.ascii 
 			return Node.WALL_COST 
@@ -123,7 +128,7 @@ def aStar(map, srcX, srcY, dstX, dstY):
 		itr += 1
 		curCandidate = getLowestScoreNode(openSet) 
 		if curCandidate.x == dstX and curCandidate.y == dstY:
-			print "success!" #TODO: print path taken
+			print "success!" 
 			path = [] 
 			curNode = curCandidate
 			while curNode.x != srcX and curNode.y != srcY:
@@ -145,5 +150,6 @@ def getHeuristic(srcX, srcY, dstX, dstY):
 	deltaY = dstY - srcY 
 	return math.sqrt(deltaX**2 + deltaY**2)  
 
+#TODO: devise unit test
 if __name__ == "__main__":
-	print "what."
+	print "make a unit test!"

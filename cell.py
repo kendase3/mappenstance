@@ -7,6 +7,7 @@ class Cell:
 	EMPTY_SYMBOL = ' ' 
 	FLOOR_SYMBOL = '.'
 	DOOR_SYMBOL = '+'
+	CORRIDOR_SYMBOL = '#'
 	"""
 	HORIZONTAL_WALL_SYMBOL = 'W' 
 	VERTICAL_WALL_SYMBOL = 'W' 
