@@ -7,6 +7,7 @@ import random
 from cell import Cell
 from room import Room
 from astar import aStar
+from coord import Coord
 
 class Mapp:
 	"""
@@ -278,4 +279,5 @@ if __name__=="__main__":
 	map = Mapp() 
 	map.addRooms() 
 	map.prnt()
-	aStar(map.cells, 0, 0, 1, 1)
+	path = aStar(map.cells, 0, 0, 1, 1)
+	print path

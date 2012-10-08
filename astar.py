@@ -8,14 +8,12 @@ import math
 
 # locals
 from cell import Cell
+from coord import Coord 
 
 class Node:
 	"""
 		self-aware x,y wrapper for cells in a-star
 	"""
-	ROCK_CELL = ' '
-	WALL_CELL = 'W'
-	ROOM_CELL = '.'
 	ROCK_COST = 1
 	WALL_COST = 1E5
 	ROOM_COST = 1E5
@@ -35,14 +33,17 @@ class Node:
 		return 'x=%d,y=%d' % (self.x, self.y)
 
 	def getCellCost(self):
-		if self.cell.ascii == Node.ROCK_CELL:
+		if self.cell.ascii == Cell.EMPTY_SYMBOL:
 			return Node.ROCK_COST
-		elif self.cell.ascii == Node.WALL_CELL:
+		elif self.cell.ascii == Cell.TOP_CORNER_SYMBOL or (
+				self.cell.ascii == Cell.BOTTOM_CORNER_SYMBOL or
+				self.cell.ascii == Cell.HORIZONTAL_WALL_SYMBOL or
+				self.cell.ascii == Cell.VERTICAL_WALL_SYMBOL):
 			return Node.WALL_COST
-		elif self.cell.ascii == Node.ROOM_CELL:
+		elif self.cell.ascii == Cell.FLOOR_SYMBOL:
 			return Node.ROOM_COST
 		else:
-			print "oh heavens me!  assume a wall, found this sym: %c!" % self.cell 
+			print "ERROR: unknown symbol %c, assuming wall!" % self.cell.ascii 
 			return Node.WALL_COST 
 	
 	def __eq__(self, other):
@@ -126,11 +127,11 @@ def aStar(map, srcX, srcY, dstX, dstY):
 			path = [] 
 			curNode = curCandidate
 			while curNode.x != srcX and curNode.y != srcY:
-				path.append(curNode)
+				coord = Coord(curNode.x, curNode.y)
+				path.append(coord)
 				curNode = curNode.prev
 			path.reverse() 
-			print path
-			return
+			return path 
 		openSet.remove(curCandidate) 
 		closedSet.append(curCandidate) 
 		# add this node's neighbors to the open list
