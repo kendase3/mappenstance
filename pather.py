@@ -54,6 +54,13 @@ class Pather:
 			print "ERROR: getOutside called with %d" % wall
 			exit() 
 
+	def withinBounds(self, mapp, x, y):
+		if x < 0 or x >= mapp.width:
+			return False 
+		if y < 0 or y >= mapp.height:
+			return False
+		return True
+
 	def addPaths(self, mapp):
 		"""
 			ensure rooms are fully connected
@@ -97,9 +104,16 @@ class Pather:
 		mapp.cells[startWallY][startWallX].ascii = Cell.DOOR_SYMBOL	
 		mapp.cells[endWallY][endWallX].ascii = Cell.DOOR_SYMBOL	
 		beginX, beginY = self.getOutside(startWallX, startWallY, startWall)
+		# we need to check bounds on our outside cells 
 		goalX, goalY = self.getOutside(endWallX, endWallY, endWall)  
+		while not (
+				self.withinBounds(mapp, beginX, beginY) and
+				self.withinBounds(mapp, goalX, goalY)):
+			beginX, beginY = self.getOutside(startWallX, startWallY, startWall)
+			goalX, goalY = self.getOutside(endWallX, endWallY, endWall)
 		path = aStar(mapp.cells, beginX, beginY, goalX, goalY) 
 		for coord in path:
+			#FIXME: some of these paths are negative indices!
 			print "addpath assigning value of cell x=%d, y=%d" % (
 					coord.x, coord.y)
 			mapp.cells[coord.y][coord.x].ascii = Cell.CORRIDOR_SYMBOL	
