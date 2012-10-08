@@ -6,7 +6,7 @@ from util import *
 from cell import Cell
 from room import Room
 
-class Roomifier: 
+class Roomer: 
 	DEFAULT_MIN_ROOMS = 3
 	DEFAULT_MAX_ROOMS = 10 
 	DEFAULT_MIN_ROOM_WIDTH = 5 # all disclude walls 
@@ -18,13 +18,13 @@ class Roomifier:
 				minRoomWidth = None, maxRoomWidth = None,
 				minRoomHeight = None, maxRoomHeight = None,
 				maxTries = None):
-		self.minRooms = noneSet(minRooms, Roomifier.DEFAULT_MIN_ROOMS) 
-		self.maxRooms = noneSet(maxRooms, Roomifier.DEFAULT_MAX_ROOMS) 
-		self.minRoomWidth = noneSet(minRoomWidth, Roomifier.DEFAULT_MIN_ROOM_WIDTH) 
-		self.minRoomHeight = noneSet(minRoomHeight, Roomifier.DEFAULT_MIN_ROOM_HEIGHT) 
-		self.maxRoomWidth = noneSet(maxRoomWidth, Roomifier.DEFAULT_MAX_ROOM_WIDTH) 
-		self.maxRoomHeight = noneSet(maxRoomHeight, Roomifier.DEFAULT_MAX_ROOM_HEIGHT) 
-		self.maxTries = noneSet(maxTries, Roomifier.DEFAULT_MAX_TRIES)
+		self.minRooms = noneSet(minRooms, Roomer.DEFAULT_MIN_ROOMS) 
+		self.maxRooms = noneSet(maxRooms, Roomer.DEFAULT_MAX_ROOMS) 
+		self.minRoomWidth = noneSet(minRoomWidth, Roomer.DEFAULT_MIN_ROOM_WIDTH) 
+		self.minRoomHeight = noneSet(minRoomHeight, Roomer.DEFAULT_MIN_ROOM_HEIGHT) 
+		self.maxRoomWidth = noneSet(maxRoomWidth, Roomer.DEFAULT_MAX_ROOM_WIDTH) 
+		self.maxRoomHeight = noneSet(maxRoomHeight, Roomer.DEFAULT_MAX_ROOM_HEIGHT) 
+		self.maxTries = noneSet(maxTries, Roomer.DEFAULT_MAX_TRIES)
 
 	def addRooms(self, map):  
 		ctr = 0
