@@ -20,4 +20,5 @@ if __name__=="__main__":
 	pather = Pather() 	
 	#pather.addPath(map, 0, 1)
 	pather.addPaths(map)
+	print "\n\n"
 	map.prnt()

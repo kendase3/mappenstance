@@ -7,6 +7,11 @@ from mapp import Mapp
 from coord import Coord
 from astar import aStar
 class Pather:
+	"""
+		a pather makes paths between rooms in a map with rooms.
+
+		those rooms could have been created manually or with a roomer
+	"""
 	#TODO: constants to adjust
 	def __init__(self ):
 		"""

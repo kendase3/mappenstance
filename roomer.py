@@ -7,12 +7,15 @@ from cell import Cell
 from room import Room
 
 class Roomer: 
+	"""
+		i've heard stories that a roomer makes rooms
+	"""
 	DEFAULT_MIN_ROOMS = 2 
 	DEFAULT_MAX_ROOMS = 10 
 	DEFAULT_MIN_ROOM_WIDTH = 3 # all disclude walls 
 	DEFAULT_MIN_ROOM_HEIGHT = 3  
-	DEFAULT_MAX_ROOM_WIDTH = 8 
-	DEFAULT_MAX_ROOM_HEIGHT = 5 
+	DEFAULT_MAX_ROOM_WIDTH = 20 
+	DEFAULT_MAX_ROOM_HEIGHT = 8 
 	DEFAULT_MAX_TRIES = 30
 	def __init__(self, minRooms = None, maxRooms = None, 
 				minRoomWidth = None, maxRoomWidth = None,
