@@ -9,7 +9,7 @@ from astar import aStar
 
 #BIG_PATHS= True
 #BIG_PATHS= False 
-BIG_PATH_PERCENTAGE = 10 
+BIG_PATH_PERCENTAGE = 50 
 
 class Pather:
 	"""
@@ -88,8 +88,13 @@ class Pather:
 		while len(unconnectedRooms) > 0:
 			startRoomIndex = random.randint(0, len(connectedRooms) - 1) 
 			endRoomIndex = random.randint(0, len(unconnectedRooms) - 1)
+			bigPath = False
+			# we decide if this path will be big
+			#TODO: medium path that only checks north and east
+			if random.randint(0, 100) <= BIG_PATH_PERCENTAGE:
+				bigPath = True
 			self.addPath(mapp, connectedRooms[startRoomIndex].id, 
-					unconnectedRooms[endRoomIndex].id) 
+					unconnectedRooms[endRoomIndex].id, bigPath) 
 			connectedRooms.append(unconnectedRooms.pop(endRoomIndex))
 
 	def getStartLocation(self, mapp, startRoomIndex, endRoomIndex): 
@@ -106,7 +111,7 @@ class Pather:
 		goalX, goalY = self.getOutside(endWallX, endWallY, endWall)  
 		return beginX, beginY, goalX, goalY
 
-	def addPath(self, mapp, startRoomIndex, endRoomIndex): 
+	def addPath(self, mapp, startRoomIndex, endRoomIndex, bigPath): 
 		"""
 			add a path between two rooms
 
@@ -133,7 +138,7 @@ class Pather:
 		path = aStar(mapp.cells, beginX, beginY, goalX, goalY) 
 		for coord in path:
 			mapp.cells[coord.y][coord.x].ascii = Cell.CORRIDOR_SYMBOL	
-			if random.randint(0, 100) <= BIG_PATH_PERCENTAGE:
+			if bigPath:
 				self.bigPath(coord.x, coord.y, mapp)
 		#TODO: include door cells?  or src and dst room id's? 
 		mapp.pathList.append(path) 
