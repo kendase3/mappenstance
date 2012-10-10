@@ -14,7 +14,8 @@ class Node:
 		self-aware x,y wrapper for cells in a-star
 	"""
 	CORRIDOR_COST = 1
-	ROCK_COST = 3 
+	#ROCK_COST = 3 
+	ROCK_COST = 10 
 	WALL_COST = 1E5 # arbitrarily high number 
 	ROOM_COST = 1E5
 	DOOR_COST = 1E7

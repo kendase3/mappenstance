@@ -6,6 +6,10 @@ from cell import Cell
 from mapp import Mapp
 from coord import Coord
 from astar import aStar
+
+#BIG_PATHS= True
+BIG_PATHS= False 
+
 class Pather:
 	"""
 		a pather makes paths between rooms in a map with rooms.
@@ -128,5 +132,24 @@ class Pather:
 		path = aStar(mapp.cells, beginX, beginY, goalX, goalY) 
 		for coord in path:
 			mapp.cells[coord.y][coord.x].ascii = Cell.CORRIDOR_SYMBOL	
+			if BIG_PATHS:
+				self.bigPath(coord.x, coord.y, mapp)
 		#TODO: include door cells?  or src and dst room id's? 
 		mapp.pathList.append(path) 
+
+	def bigPath(self, x, y, mapp):
+		neighbors = []
+		# we'll check north
+		neighbors.append(Coord(x, y - 1))
+		# then east
+		neighbors.append(Coord(x + 1, y))
+		# then south
+		neighbors.append(Coord(x, y + 1))
+		# finally west	
+		neighbors.append(Coord(x - 1, y))
+		for neighbor in neighbors:
+			if self.withinBounds(mapp, neighbor.x, neighbor.y) and (
+					mapp.cells[neighbor.y][neighbor.x].ascii == (
+					Cell.EMPTY_SYMBOL)): 
+				mapp.cells[neighbor.y][neighbor.x].ascii = Cell.CORRIDOR_SYMBOL	
+
