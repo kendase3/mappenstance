@@ -8,7 +8,8 @@ from coord import Coord
 from astar import aStar
 
 #BIG_PATHS= True
-BIG_PATHS= False 
+#BIG_PATHS= False 
+BIG_PATH_PERCENTAGE = 10 
 
 class Pather:
 	"""
@@ -132,7 +133,7 @@ class Pather:
 		path = aStar(mapp.cells, beginX, beginY, goalX, goalY) 
 		for coord in path:
 			mapp.cells[coord.y][coord.x].ascii = Cell.CORRIDOR_SYMBOL	
-			if BIG_PATHS:
+			if random.randint(0, 100) <= BIG_PATH_PERCENTAGE:
 				self.bigPath(coord.x, coord.y, mapp)
 		#TODO: include door cells?  or src and dst room id's? 
 		mapp.pathList.append(path) 
