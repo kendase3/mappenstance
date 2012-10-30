@@ -23,5 +23,5 @@ if __name__=="__main__":
 	print "\n\n"
 	map.prnt()
 	populator = Populator()
-	populator.addStairs(map) 	
+	populator.addStairs(map, 4, 4) 	
 	map.prnt()

@@ -10,14 +10,8 @@ class Cell:
 	CORRIDOR_SYMBOL = '#'
 	STAIRS_UP_SYMBOL = '<'
 	STAIRS_DOWN_SYMBOL = '>'
-	"""
-	HORIZONTAL_WALL_SYMBOL = 'W' 
-	VERTICAL_WALL_SYMBOL = 'W' 
-	TOP_CORNER_SYMBOL = 'W' 
-	BOTTOM_CORNER_SYMBOL = 'W' 
-	EMPTY_SYMBOL = ' ' 
-	FLOOR_SYMBOL = '.'
-	DOOR_SYMBOL = '+'
-	"""
+
 	def __init__(self):
 		self.ascii = Cell.EMPTY_SYMBOL
+		self.creature = None
+		self.items = []
