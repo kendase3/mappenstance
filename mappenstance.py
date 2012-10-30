@@ -11,6 +11,7 @@ from astar import aStar
 from coord import Coord
 from roomer import Roomer
 from pather import Pather
+from populator import Populator 
 
 if __name__=="__main__":
 	map = Mapp() 
@@ -18,7 +19,8 @@ if __name__=="__main__":
 	roomer.addRooms(map) 
 	map.prnt()
 	pather = Pather() 	
-	#pather.addPath(map, 0, 1)
 	pather.addPaths(map)
 	print "\n\n"
 	map.prnt()
+	populator = Populator()
+	populator.addStairs(map) 	
